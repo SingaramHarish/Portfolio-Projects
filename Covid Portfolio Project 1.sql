@@ -1,11 +1,22 @@
+/*
+
+Covid 19 Data Exploration 
+
+Skills used: Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
+
+*/
+
+
 Select * 
 FROM PortfolioProject..CovidDeaths
 Where continent is not null
 order by 3,4
 
+
 --Select * 
 --FROM PortfolioProject..CovidVaccinations
 --order by 3,4
+
 
 --Lets Select the data that we are using
 
@@ -13,6 +24,8 @@ Select location,date, total_cases, new_cases, total_deaths, population
 FROM PortfolioProject..CovidDeaths
 Where continent is not null
 order by 1,2
+
+
 
 -- Lets Look at Total cases Vs Total Deaths
 -- Show likelihood of dying if you contract Covid in different countries
@@ -22,6 +35,7 @@ Where continent is not null and location like '%India%'
 order by 1, 2
 
  
+
 --Total cases Vs Population
 -- This shows the % of population contrACTED WITH covid
 Select location,date, total_cases, population, (total_cases/population)*100 as CovidPositivePercentage
@@ -29,6 +43,8 @@ FROM PortfolioProject..CovidDeaths
 Where location like '%India%'
 and continent is not null
 Order By 1,2
+
+
 
 -- Countries with Highest Infection Rate Compared to Population
 
@@ -38,6 +54,8 @@ Where continent is not null
 Group By location,population
 Order By InfectedPopulationPercentage desc
 
+
+
 --Countries with Highest Death Count per Population
 
 Select location, Max(cast(total_deaths as int)) as TotalDeathCount
@@ -45,6 +63,8 @@ FROM PortfolioProject..CovidDeaths
 Where continent is not null
 Group By location
 Order By TotalDeathCount desc
+
+
 
 -- Lets break it down by Continent
 --Showing Continents with Highest Death Counts per Population
@@ -57,6 +77,8 @@ Group By continent
 Order By TotalDeathCount desc
 
 
+
+
 -- Global Numbers
 
 Select date, SUM(new_cases) as total_cases, SUM(cast(new_deaths as int)) as total_deaths, 
@@ -66,6 +88,8 @@ FROM PortfolioProject..CovidDeaths
 Where continent is not null
 Group by date
 order by 1, 2
+
+
 
 -- Total death %
 
@@ -77,7 +101,9 @@ Where continent is not null
 --Group by date
 order by 1, 2
 
+
 -----
+
 
 Select *
 From PortfolioProject..CovidVaccinations
@@ -94,6 +120,8 @@ Join PortfolioProject..CovidVaccinations vac
 	and dea.date = vac.date
 Where dea.continent is not null
 Order By 2,3
+
+
 
 -- Lets Use CTE
 
@@ -113,6 +141,8 @@ Where dea.continent is not null
 )
 Select *, (RollingPeopleVaccinated/Population)*100
 From PopvsVac
+
+
 
 
 
@@ -143,6 +173,8 @@ Where dea.continent is not null
 
 Select *, (RollingPeopleVaccinated/Population)*100
 From #PercentPopulationVaccinated
+
+
 
 
 --- Creatng View to store data for later Visualixations
